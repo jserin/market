@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,8 +24,9 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public String detail(Model model, @RequestParam("id") Long id) {
-
+    public String detail(Model model, @PathVariable Long id) {
+        Product p = this.productService.getProduct(id);
+        model.addAttribute("product", p);
         return "product/detail";
     }
 }

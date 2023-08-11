@@ -3,8 +3,8 @@ package com.cojar.market.product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -20,7 +20,15 @@ public class ProductService {
         Product p = new Product();
         p.setName(name);
         p.setPrice(price);
-        p.setCreateDate(LocalDateTime.now());
         this.productRepository.save(p);
+    }
+
+    public Product getProduct(Long id) {
+        Optional<Product> p = this.productRepository.findById(id);
+        if (p.isPresent()) {
+            return p.get();
+        } else {
+            return null;
+        }
     }
 }

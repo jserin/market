@@ -1,20 +1,20 @@
 package com.cojar.market.member;
 
+import com.cojar.market.answer.Answer;
+import com.cojar.market.base.entity.BaseEntity;
+import com.cojar.market.market.Market;
+import com.cojar.market.product.Product;
+import com.cojar.market.quesiton.Question;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
-public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Member extends BaseEntity {
 
     @Column(unique = true)
     private String username;
@@ -22,8 +22,16 @@ public class Member {
     private String password;
     private String nickname;
     private String email;
-    @CreatedDate
-    private LocalDateTime createDate;
-    @LastModifiedDate
-    private LocalDateTime modifyDate;
+
+    @OneToOne
+    private Market market;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Question> questionList;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Answer> answerList;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Product> productList;
 }
